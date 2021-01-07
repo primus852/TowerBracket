@@ -23,8 +23,9 @@ public class WaveSpawn : MonoBehaviour
         }
 
         _countdown -= Time.deltaTime;
+        _countdown = Mathf.Clamp(_countdown, 0f, Mathf.Infinity);
 
-        waveCountdownText.text = Mathf.Round(_countdown).ToString();
+        waveCountdownText.text = $"Next Wave:\n{_countdown:00.00}";
 
     }
 

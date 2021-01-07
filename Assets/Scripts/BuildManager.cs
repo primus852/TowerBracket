@@ -6,8 +6,12 @@ public class BuildManager : MonoBehaviour
     public static BuildManager BuildManagerInstance;
     public GameObject standardTurretPrefab;
     public GameObject missileLauncherPrefab;
-    
-    private GameObject _turretToBuild;
+    public GameObject buildEffect;
+
+    private TurretBlueprint _turretToBuild;
+
+    public bool CanBuild => _turretToBuild != null;
+    public bool HasMoney => PlayerStats.Money >= _turretToBuild.cost;
 
     private void Awake()
     {
@@ -16,15 +20,32 @@ public class BuildManager : MonoBehaviour
             Debug.LogError("Duplicate BuildManager");
             return;
         }
+
         BuildManagerInstance = this;
     }
 
-    public GameObject GetTurretToBuild()
+    public void BuildTurretOn(Node node)
     {
-        return _turretToBuild;
+        if (PlayerStats.Money < _turretToBuild.cost)
+        {
+            Debug.Log("Not enough credentials");
+            return;
+        }
+
+        PlayerStats.Money -= _turretToBuild.cost;
+
+        GameObject turret =
+            (GameObject) Instantiate(_turretToBuild.prefab, node.GetBuildPosition(), Quaternion.identity);
+        node.turret = turret;
+
+        GameObject effect = (GameObject) Instantiate(buildEffect, node.GetBuildPosition(), Quaternion.identity);
+        Destroy(effect, 5f);
+
+        Debug.Log("Turret build! Money left: " + PlayerStats.Money);
     }
 
-    public void SetTurretToBuild(GameObject turret)
+
+    public void SelectTurretToBuild(TurretBlueprint turret)
     {
         _turretToBuild = turret;
     }

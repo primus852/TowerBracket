@@ -5,8 +5,12 @@ public class Bullet : MonoBehaviour
 {
     private Transform _target;
 
+    [Header("Stats")]
     public float speed = 70f;
     public float explosionRadius = 0f;
+    public int damage = 50;
+    
+    [Header("Effect")]
     public GameObject impactEffect;
     private bool _isTargetNull;
 
@@ -76,7 +80,12 @@ public class Bullet : MonoBehaviour
 
     void Damage(Transform enemy)
     {
-        Destroy(enemy.gameObject);
+        Enemy e = enemy.GetComponent<Enemy>();
+
+        if (e != null)
+        {
+            e.TakeDamage(damage);   
+        }
     }
 
     private void OnDrawGizmosSelected()
