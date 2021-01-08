@@ -1,14 +1,26 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private bool _gameEnded = false;
+    public static bool GameIsOver;
+    public GameObject gameOverUI;
+
+    private void Start()
+    {
+        GameIsOver = false;
+    }
 
     void Update()
     {
-        if (_gameEnded)
+        if (GameIsOver)
         {
             return;
+        }
+
+        if (Input.GetKeyDown("e"))
+        {
+            GameOver();
         }
 
 
@@ -20,7 +32,7 @@ public class GameManager : MonoBehaviour
 
     private void GameOver()
     {
-        _gameEnded = true;
-        Debug.Log("GAME OVER");
+        GameIsOver = true;
+        gameOverUI.SetActive(true);
     }
 }

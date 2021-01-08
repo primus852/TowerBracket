@@ -33,6 +33,7 @@ public class WaveSpawn : MonoBehaviour
     {
 
         _waveNumber++;
+        PlayerStats.Rounds++;
 
         for (int i = 0; i < _waveNumber; i++)
         {
