@@ -1,12 +1,14 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BuildManager : MonoBehaviour
 {
     public static BuildManager BuildManagerInstance;
     public GameObject buildEffect;
+    public GameObject sellEffect;
+    public NodeUI nodeUI;
 
     private TurretBlueprint _turretToBuild;
+    private Node _selectedNode;
 
     public bool CanBuild => _turretToBuild != null;
     public bool HasMoney => PlayerStats.Money >= _turretToBuild.cost;
@@ -22,29 +24,35 @@ public class BuildManager : MonoBehaviour
         BuildManagerInstance = this;
     }
 
-    public void BuildTurretOn(Node node)
+    public void SelectNode(Node node)
     {
-        if (PlayerStats.Money < _turretToBuild.cost)
+        if (_selectedNode == node)
         {
-            Debug.Log("Not enough credentials");
+            DeselectNode();
             return;
         }
+        
+        _selectedNode = node;
+        _turretToBuild = null;
 
-        PlayerStats.Money -= _turretToBuild.cost;
+        nodeUI.SetTarget(node);
+    }
 
-        GameObject turret =
-            (GameObject) Instantiate(_turretToBuild.prefab, node.GetBuildPosition(), Quaternion.identity);
-        node.turret = turret;
-
-        GameObject effect = (GameObject) Instantiate(buildEffect, node.GetBuildPosition(), Quaternion.identity);
-        Destroy(effect, 5f);
-
-        Debug.Log("Turret build! Money left: " + PlayerStats.Money);
+    public void DeselectNode()
+    {
+        _selectedNode = null;
+        nodeUI.Hide();
     }
 
 
     public void SelectTurretToBuild(TurretBlueprint turret)
     {
         _turretToBuild = turret;
+        DeselectNode();
     }
+
+    public TurretBlueprint GetTurretToBuild()
+    {
+        return _turretToBuild;
+    } 
 }

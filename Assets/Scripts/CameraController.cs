@@ -8,24 +8,12 @@ public class CameraController : MonoBehaviour
     public float minY = 10f;
     public float maxY = 80f;
 
-    private bool _doMovement = false;
-
     void Update()
     {
 
         if (GameManager.GameIsOver)
         {
             enabled = false;
-        }
-        
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            _doMovement = !_doMovement;
-        }
-
-        if (!_doMovement)
-        {
-            return;
         }
 
         if (Input.GetKey("w") || Input.mousePosition.y >= Screen.height - panBorderThickness)
