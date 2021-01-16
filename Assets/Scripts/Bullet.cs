@@ -1,23 +1,14 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
     private Transform _target;
 
-    [Header("Stats")]
-    public float speed = 70f;
+    [Header("Stats")] public float speed = 70f;
     public float explosionRadius = 0f;
     public float damage = 50f;
-    
-    [Header("Effect")]
-    public GameObject impactEffect;
-    private bool _isTargetNull;
 
-    private void Start()
-    {
-        _isTargetNull = _target == null;
-    }
+    [Header("Effect")] public GameObject impactEffect;
 
     public void Seek(Transform target)
     {
@@ -27,7 +18,7 @@ public class Bullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_isTargetNull)
+        if (_target == null)
         {
             Destroy(gameObject);
             return;
@@ -84,7 +75,7 @@ public class Bullet : MonoBehaviour
 
         if (e != null)
         {
-            e.TakeDamage(damage);   
+            e.TakeDamage(damage);
         }
     }
 
