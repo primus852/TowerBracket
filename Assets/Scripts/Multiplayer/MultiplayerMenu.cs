@@ -87,7 +87,7 @@ namespace Multiplayer
 
         public void OnStartGameButton()
         {
-            NetworkManager.networkManagerInstance.photonView.RPC("ChangeScene", RpcTarget.All, "Level01" );
+            NetworkManager.networkManagerInstance.photonView.RPC("ChangeScene", RpcTarget.All, "LevelVersus01" );
         }
     }
 }
